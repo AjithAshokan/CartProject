@@ -1,0 +1,106 @@
+﻿<link href="~/Content/product.css" rel="stylesheet" />
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<div class="container">
+    <div class="row header">
+        <h1 id="title">Add Product &nbsp;</h1>
+        <h3><p id="description">Fill out the form below for improvement of freeCodeCamp!</p></h3>
+    </div>
+    <div class="row body">
+        <form action="#" id="survey-form">
+            <ul>
+
+                <li>
+                    <p class="left">
+                        <label for="first_name" id="name-label">Product Name<span class="req">*</span></label>
+                        <input type="text" name="first_name" placeholder="" id="name" required />
+                    </p>
+                    <p class="pull-right">
+                        <label for="last_name">Product price<span class="req">*</span></label>
+                        <input type="text" name="last_name" placeholder="" required />
+                    </p>
+                </li>
+                <li>
+                    <label for="comments">Product Description</label>
+                    <textarea cols="46" rows="3" name="comments" placeholder=""></textarea>
+                </li>
+                <li>
+                    <p>
+                        <label for="email" id="email-label">Catogery <span class="req">*</span></label>
+                    <select id="catogerySelect">
+                        <option>Select </option>
+                        </select>
+                        @*<label for="email" id="email-label">Email <span class="req">*</span></label>
+        <input type="email" name="email" placeholder="Salina.Akther@gmail.com" id="email" required />*@
+                    </p>
+                </li>
+                <li>
+                    <label  >Select Image <span class="req">*</span></label>
+                    <input type="file" id="FileUpload1" />
+                    <input type="button" id="btnUpload" value="Upload Files" />
+                </li>
+
+
+                <li style="text-align:center">
+                    <button class="btn btn-submit" type="submit" id="submit">Submit</button>
+                </li>
+
+            </ul>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            //url: pathUrl,
+            //type: "GET",
+            type: "POST",
+            url: "/Home/GetTaskName",
+            //  async: false,
+            success: function (result) {
+
+                var resultVals = $.parseJSON(result);
+
+                if (resultVals["Error"] == undefined || resultVals["Error"] == null) {
+                    for (var i = 0; i < resultVals.length; i++) {
+                        $('#catogerySelect').append('<option value=' + resultVals[i]["CategoryId"] + '>' + resultVals[i]["CategoryName"] + '</option>');
+                    }
+                }
+            }
+            ,
+            error: function (err) {
+                //alert(err.statusText);
+            }
+        });
+
+
+        //LoadDdls('/Home/GetTaskName', $('#countrySelect'), 'CategoryId', 'CategoryName');
+    });
+
+    function LoadDdls(pathUrl, ddlObject, KeyField, ValueField) {
+        $.ajax({
+            //url: pathUrl,
+            //type: "GET",
+            type: "POST",
+            url: "/Home/GetTaskName",
+          //  async: false,
+            success: function (result) {
+
+                var resultVals = $.parseJSON(result);
+
+                if (resultVals["Error"] == undefined || resultVals["Error"] == null) {
+                    for (var i = 0; i < resultVals.length; i++) {
+                        ddlObject.append('<option value=' + resultVals[i][KeyField] + '>' + resultVals[i][ValueField] + '</option>');
+                    }
+                }
+            }
+            ,
+            error: function (err) {
+                //alert(err.statusText);
+            }
+        });
+    }
+
+
+    </script>
